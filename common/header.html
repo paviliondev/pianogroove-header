@@ -1,0 +1,97 @@
+<script type="text/discourse-plugin" version="0.8">
+  const { iconNode } = require("discourse-common/lib/icon-library");
+
+  api.changeWidgetSetting('home-logo', 'href', settings.pianogroove_menu_url);
+
+  api.decorateWidget('home-logo:after', helper => {
+    const showExtraInfo = helper.attrs.minimized;
+
+    const menuClickHandler = function() {
+      let $navLinkContainer = $('#nav-link-container');
+      if ($navLinkContainer.css('visibility') === 'visible') {
+        $navLinkContainer.css('visibility', 'hidden');
+      } else if ($navLinkContainer.css('visibility') === 'hidden') {
+        $navLinkContainer.css('visibility', 'visible');
+      }
+    };
+
+    const linkURL = "https://www.pianogroove.com/meet-the-team/";
+    const linkTitle = "Meet Your Teachers";
+
+    if (api.getCurrentUser()) {
+      linkURL = "https://www.pianogroove.com/welcome-to-pianogroove/";
+      linkTitle = "Pro Dashboard";
+    }
+
+    const subMenuClickHandler = function() {
+      if ($('ul.nav-link-submenu').is(':visible')) {
+        $('ul.nav-link-submenu').removeAttr('style');
+        $('#header-menu-toggle').removeClass('toggled');
+      } else if ($('ul.nav-link-submenu').is(':hidden')) {
+        $('ul.nav-link-submenu').show();
+        $('#header-menu-toggle').addClass('toggled');
+      }
+    };
+
+    if (!showExtraInfo) {
+      return [
+        helper.h('ul#nav-link-container', [
+          helper.h('li.dropdown', [
+            helper.h('a.nav-link.submenu', {
+              href:'https://www.pianogroove.com/jazz-piano-lessons/',
+              text:'Lessons'
+            }),
+            helper.h('button.dropdown-toggle#header-menu-toggle',
+              { onclick: subMenuClickHandler },
+              iconNode("chevron-down", { class: "chevron-down" })),
+            helper.h('ul.nav-link-submenu', [
+              helper.h('li', [
+                helper.h('a.nav-submenu-link', {
+                  href:'https://www.pianogroove.com/jazz-piano-lessons/',
+                  text:'Jazz Piano Lessons'
+                })
+              ]),
+              helper.h('li', [
+                helper.h('a.nav-submenu-link', {
+                  href:'https://www.pianogroove.com/blues-piano-lessons/',
+                  text:'Blues Piano Lessons'
+                })
+              ]),
+              helper.h('li', [
+                helper.h('a.nav-submenu-link', {
+                  href:'https://www.pianogroove.com/bossa-nova-lessons/',
+                  text:'Bossa Nova Lessons'
+                })
+              ])
+            ])
+          ]),
+          helper.h('li', [
+            helper.h('a.nav-link', {
+              href:'https://www.pianogroove.com/resources/',
+              text:'Resources'
+            })
+          ]),
+          helper.h('li', [
+            helper.h('a.nav-link', {
+              href:'https://www.pianogroove.com/community/',
+              text:'Community'
+            })
+          ]),
+          helper.h('li', [
+            helper.h('a.nav-link', {
+              href: linkURL,
+              text: linkTitle
+            })
+          ])
+        ]),
+        helper.h('div#responsive-menu',
+          { onclick: menuClickHandler },
+          [
+            helper.h('span', 'Menu'),
+            iconNode("bars", { class: "bars" })
+          ]
+        )
+      ];
+    }
+  });
+</script>
