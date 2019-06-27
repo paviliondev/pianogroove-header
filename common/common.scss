@@ -124,6 +124,12 @@ html {
   display: none;
 }
 
+.anon {
+  .login-button, .d-header-icons {
+    display: none;
+  }
+}
+
 @media (min-width: 954px) {
   #nav-link-container {
     visibility: visible !important;
@@ -242,9 +248,19 @@ html {
 }
 
 @media (max-width: 500px) {
-  .d-header #site-logo {
-    max-width: 100%;
-    height: auto;
+  .d-header {
+    .title {
+      max-width: initial;
+    }
+
+    #site-logo {
+      max-width: 100%;
+      height: auto;
+    }
+
+    #responsive-menu {
+      margin-top: 4px;
+    }
   }
 
   #nav-link-container {
