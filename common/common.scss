@@ -1,4 +1,8 @@
+$pianogroove-blue: #003d52;
 $pianogroove-blue-dark: #032c3a;
+$pianogroove-blue-light: #F2F5F6;
+$pianogroove-gold: #caad6f;
+$pianogroove-gold-dark: #A28C58;
 $pianogroove-turquoise: #00b38f;
 
 @import url('https://fonts.googleapis.com/css?family=Poppins');
@@ -14,7 +18,7 @@ html {
     color: white;
   }
 
-  .title .d-icon, .categories-wrapper .category-name {
+  .categories-wrapper .category-name {
     color: #c2c2c2;
   }
 }
@@ -133,7 +137,7 @@ html {
 }
 
 .anon {
-  .login-button, .d-header-icons {
+  .sign-up-button, .login-button, .d-header-icons {
     display: none;
   }
 }
@@ -276,5 +280,45 @@ html {
     left: 50%;
     transform: translateX(-50%);
     top: 5px;
+  }
+}
+
+.d-header .header-buttons {
+  margin-top: 0;
+}
+
+html, html.discourse-no-touch, html.discourse-touch {
+  .btn-gold {
+    background-color: $pianogroove-gold;
+    color: white;
+
+    a, .d-icon {
+      color: white;
+    }
+
+    &:hover, &.active {
+      background-color: $pianogroove-gold-dark;
+    }
+  }
+
+  .btn-blue, .btn-blue:hover {
+    background-color: $pianogroove-blue;
+
+    span {
+      color: white;
+    }
+  }
+
+  a.btn-account {
+    margin-right: 15px;
+    padding: 10px 30px;
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+
+    span {
+      text-transform: uppercase;
+    }
   }
 }

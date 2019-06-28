@@ -94,4 +94,21 @@
       ];
     }
   });
+
+  api.decorateWidget('header-buttons:after', helper => {
+    if (!api.getCurrentUser() && !helper.widget.site.mobileView) {
+      return [
+        helper.attach('link', {
+          href: 'https://pianogroove.memberful.com/auth/sign_in',
+          rawLabel: 'Login',
+          className: 'btn btn-blue btn-account'
+        }),
+        helper.attach('link', {
+          href: 'www.pianogroove.com/pianogroove-pro/',
+          rawLabel: 'Join',
+          className: 'btn btn-gold btn-account'
+        })
+      ]
+    }
+  })
 </script>
