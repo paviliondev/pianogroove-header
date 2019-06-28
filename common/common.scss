@@ -9,6 +9,14 @@ html {
 
 .d-header {
   background-color: $pianogroove-blue-dark;
+
+  .extra-info-wrapper a {
+    color: white;
+  }
+
+  .title .d-icon, .categories-wrapper .category-name {
+    color: #c2c2c2;
+  }
 }
 
 .d-header #site-logo{
