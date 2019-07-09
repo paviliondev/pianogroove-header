@@ -261,6 +261,11 @@ html {
 
 @media (max-width: 500px) {
   .d-header {
+    > .wrap > .contents > .title {
+      flex: initial;
+      margin-right: 5px;
+    }
+
     .title {
       max-width: initial;
     }
