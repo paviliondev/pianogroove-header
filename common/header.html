@@ -1,5 +1,6 @@
 <script type="text/discourse-plugin" version="0.8">
   const { iconNode } = require("discourse-common/lib/icon-library");
+  const { h } = require("virtual-dom");
 
   api.changeWidgetSetting('home-logo', 'href', settings.pianogroove_menu_url);
 
@@ -16,7 +17,7 @@
     };
 
     var linkURL = "https://www.pianogroove.com/meet-the-team/";
-    var linkTitle = "Meet Your Teachers";
+    var linkTitle = "Teachers";
 
     if (api.getCurrentUser()) {
       linkURL = "https://www.pianogroove.com/welcome-to-pianogroove/";
@@ -49,21 +50,43 @@
                 helper.h('a.nav-submenu-link', {
                   href:'https://www.pianogroove.com/jazz-piano-lessons/',
                   text:'Jazz Piano Lessons'
-                })
+                },
+                helper.h('div.nav-submenu-detail', 'step-by-step lessons to master jazz theory'))
               ]),
               helper.h('li', [
                 helper.h('a.nav-submenu-link', {
                   href:'https://www.pianogroove.com/blues-piano-lessons/',
                   text:'Blues Piano Lessons'
-                })
+                },
+                helper.h('div.nav-submenu-detail', 'learn the blues, jazz blues, funk & gospel'))
               ]),
               helper.h('li', [
                 helper.h('a.nav-submenu-link', {
                   href:'https://www.pianogroove.com/bossa-nova-lessons/',
-                  text:'Bossa Nova Lessons'
+                  text:'Brazilian Piano Lessons'
+                },
+                helper.h('div.nav-submenu-detail', 'study bossa nova, samba & choro styles'))
+              ]),
+              helper.h('li', [
+                helper.h('a.nav-submenu-link', {
+                  href:'https://www.pianogroove.com/jazz-piano-lessons/',
+                  text:'Jazz Standard Lessons'
+                },
+                helper.h('div.nav-submenu-detail', 'learn to play your favourite tunes & songs'))
+              ]),
+              helper.h(`li.${(Discourse.currentUser || Discourse.Mobile.mobileView) ?'hide-this':'anon-and-desktop'}`, [
+                helper.h(`a.nav-submenu-link.nav-subscribe-link`, {
+                  href:'https://www.pianogroove.com/join/',
+                  text:'SUBSCRIBE NOW'
                 })
-              ])
+              ]),
             ])
+          ]),
+          helper.h('li', [
+            helper.h('a.nav-link', {
+              href:'https://www.pianogroove.com/syllabus/',
+              text:'Syllabuses'
+            })
           ]),
           helper.h('li', [
             helper.h('a.nav-link', {
@@ -73,15 +96,26 @@
           ]),
           helper.h('li', [
             helper.h('a.nav-link', {
+              href: linkURL,
+              text: linkTitle
+            })
+          ]),
+          helper.h('li', [
+            helper.h('a.nav-link', {
               href:'https://www.pianogroove.com/community/',
               text:'Community'
             })
           ]),
           helper.h('li', [
-            helper.h('a.nav-link', {
-              href: linkURL,
-              text: linkTitle
-            })
+          helper.h(`a.nav-link.${(Discourse.currentUser || !Discourse.Mobile.mobileView) ?'hide-this':'anon-and-mobile'}`, {
+            href:'https://pianogroove.memberful.com/auth/sign_in',
+            text:'Login'
+          })
+          ]),
+          helper.h('li', [
+            helper.h(`a.nav-link.${(Discourse.currentUser || !Discourse.Mobile.mobileView) ?'hide-this':'anon-and-mobile'}`, {
+              href:'https://pianogroove.com/pianogroove-pro/'
+            }, helper.h('span', 'Get Started Now'))
           ])
         ]),
         helper.h('div#responsive-menu',
@@ -99,14 +133,14 @@
     if (!api.getCurrentUser() && !helper.widget.site.mobileView) {
       return [
         helper.attach('link', {
-          href: 'https://pianogroove.memberful.com/auth/sign_in',
-          rawLabel: 'Login',
-          className: 'btn btn-blue btn-account'
+          href: 'https://pianogroove.com/pianogroove-pro/',
+          rawLabel: 'Get Started Now',
+          className: 'btn btn-turquoise btn-account'
         }),
         helper.attach('link', {
-          href: 'https://pianogroove.com/pianogroove-pro/',
-          rawLabel: 'Join',
-          className: 'btn btn-gold btn-account'
+          href: 'https://pianogroove.memberful.com/auth/sign_in',
+          rawLabel: 'Login',
+          className: 'btn btn-blend btn-account'
         })
       ]
     }
