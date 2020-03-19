@@ -116,7 +116,7 @@
           ]),
           helper.h('li', [
             helper.h(`a.nav-link.${(currentUser || !mobileView) ?'hide-this':'anon-and-mobile'}`, {
-              href:'https://pianogroove.com/pianogroove-pro/'
+              href:'https://pianogroove.com/join/'
             }, helper.h('span', 'Get Started Now'))
           ])
         ]),
@@ -135,14 +135,14 @@
     if (!api.getCurrentUser() && !helper.widget.site.mobileView) {
       return [
         helper.attach('link', {
-          href: 'https://pianogroove.com/pianogroove-pro/',
-          rawLabel: 'Get Started Now',
-          className: 'btn btn-turquoise btn-account'
-        }),
-        helper.attach('link', {
           href: 'https://pianogroove.memberful.com/auth/sign_in',
           rawLabel: 'Login',
           className: 'btn btn-blend btn-account'
+        }),
+        helper.attach('link', {
+          href: 'https://pianogroove.com/join/',
+          rawLabel: 'Get Started Now',
+          className: 'btn btn-turquoise btn-account'
         })
       ]
     }
