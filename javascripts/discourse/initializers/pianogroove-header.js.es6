@@ -1,18 +1,26 @@
 import { withPluginApi } from 'discourse/lib/plugin-api';
 
+function applyScrolled() {
+  return $(window).scrollTop() > 0 || $('body[class*=user-], body[class*=admin-]').length
+}
+
+function setBodyClass() {
+  if (applyScrolled()) {
+    $("body").addClass("scrolled");
+  } else {
+    $("body").removeClass("scrolled");
+  }
+}
+
 export default {
   name: 'pianogroove-initialzer',
   initialize() {
-    
-    $(window).scroll(function() {
-      if($(window).scrollTop() > 0) {
-        $("body").addClass("scrolled");
-      } else {
-        $("body").removeClass("scrolled");
-      }
-    });
+    Ember.run.scheduleOnce('afterRender', setBodyClass)
+    $(window).scroll(() => setBodyClass());
     
     withPluginApi('0.8.32', api => {
+      api.onPageChange(() => Ember.run.scheduleOnce('afterRender', setBodyClass));
+      
       api.reopenWidget('home-logo', {
         buildKey: (attrs) => `home-logo`,
         
@@ -36,7 +44,7 @@ export default {
           $(window).scroll(() => {
             let state;
             
-            if($(window).scrollTop() > 0) {
+            if(applyScrolled()) {
               state = this.scrolledState();
             } else {
               state = this.defaultState();
