@@ -5,8 +5,36 @@ html {
   font-family: 'Poppins', sans-serif;
 }
 
+body.scrolled .d-header {
+  background: $pianogroove-white;
+  color: $pianogroove-blue-dark;
+  box-shadow: shadow("header");
+  height: 4em;
+  
+  #nav-link-container a,
+  #nav-link-container .dropdown button,
+  .d-header-icons .icon .d-icon,
+  .extra-info-wrapper a,
+  .categories-wrapper .category-name, 
+  .header-buttons .btn-blend {
+    color: $pianogroove-blue-dark;
+    
+    &:hover {
+      color: $pianogroove-turquoise;
+    }
+  }
+}
+
 .d-header {
-  background-color: $pianogroove-blue-dark;
+  background: transparent;
+  color: white;
+  box-shadow: none;
+  transition: all 0.5s ease-in-out 0s;
+  height: 100px;
+  
+  .d-header-icons .icon .d-icon {
+    color: white;
+  }
 
   .extra-info-wrapper a {
     color: white;
@@ -15,6 +43,12 @@ html {
   .categories-wrapper .category-name {
     color: #c2c2c2;
   }
+}
+
+html .header-buttons .btn-blend,
+html.discourse-no-touch .header-buttons .btn-blend,
+html.discourse-touch .header-buttons .btn-blend {
+  background-color: transparent;
 }
 
 .d-header #site-logo{
