@@ -57,13 +57,13 @@
   }
 }
 
-@media (min-width: 954px) {
+@media (min-width: 1100px) {
   #nav-link-container {
     visibility: visible !important;
   }
 }
 
-@media (max-width: 954px) {
+@media (max-width: 1100px) {
   .d-header > .wrap > .contents > .title {
     flex: 1 1 auto;
     justify-content: space-between;
