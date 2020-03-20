@@ -120,7 +120,7 @@
             }, helper.h('span', 'Get Started Now'))
           ])
         ]),
-        helper.h('div#responsive-menu',
+        helper.h(`div#responsive-menu.${(currentUser) ?'logged-in':'anon'}`,
           { onclick: menuClickHandler },
           [
             helper.h('span', 'Menu'),

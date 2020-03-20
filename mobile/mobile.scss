@@ -67,7 +67,7 @@
 #responsive-menu {
   position: absolute;
   top: 0px;
-  right: 1px;
+  right: -10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -81,6 +81,7 @@
 
   > span {
     margin-right: 3px;
+    display: none;
   }
 
   &::after {
@@ -94,6 +95,10 @@
 }
 
 .d-header {
+
+  .panel {
+    display: none;
+  }
 
   background-color: white;
 
@@ -202,4 +207,23 @@
       background-color: $pianogroove-lightgrey;
     }
   }
+}
+
+@media (min-width: 360px) {
+  #responsive-menu span {
+    display: flex;
+  }
+}
+
+@media (min-width: 475px) {
+
+  #responsive-menu.logged-in {
+    right: 120px;
+  }
+
+  .d-header .panel {
+    color: $pianogroove-blue-dark;
+    display: block;
+  }
+
 }
