@@ -1,6 +1,12 @@
 @import "variables";
 
+.d-header-wrap {
+  position: unset;
+}
+
 .d-header {
+  position: fixed;
+  backface-visibility: hidden;
   background: transparent;
   color: white;
   box-shadow: none;
