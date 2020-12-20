@@ -179,6 +179,19 @@
       color: black;
     }
   }
+  
+  .btn-account {
+    width: unset;
+    margin: 10px;
+  }
+  
+  .btn-blend {
+    background-color: $primary-low;
+  }
+  
+  .btn-turquoise span {
+    color: white;
+  }
 }
 
 #nav-link-container .nav-link-submenu {

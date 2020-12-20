@@ -1,14 +1,148 @@
 <script type="text/discourse-plugin" version="0.8">
   const { iconNode } = require("discourse-common/lib/icon-library");
   const { h } = require("virtual-dom");
+  const currentUser = api.getCurrentUser();
+  const mobileView = api._lookupContainer("site:main").mobileView;
 
   api.changeWidgetSetting('home-logo', 'href', settings.pianogroove_menu_url);
+  
+  const subMenuClickHandler = function() {
+    if ($('ul.nav-link-submenu').is(':visible')) {
+      $('ul.nav-link-submenu').removeAttr('style');
+      $('#header-menu-toggle').removeClass('toggled');
+    } else if ($('ul.nav-link-submenu').is(':hidden')) {
+      $('ul.nav-link-submenu').show();
+      $('#header-menu-toggle').addClass('toggled');
+    }
+  };
+  
+  function linkItemClasses(settings, classes = '') {
+    if (settings) {
+      if ((settings.includes('user') && !currentUser) ||
+          (settings.includes('guest') && currentUser) ||
+          (settings.includes('desktop') && mobileView) ||
+          (settings.includes('mobile') && !mobileView)) {
+        classes += '.hide-this';
+      }
+    }
+    
+    return classes;
+  }
+  
+  function buildLinks(helper) {
+    if (!settings.header_links) return [];
+    
+    let linkList = settings.header_links.split('|');
+    let result = [];
+    
+    if (linkList.length) {
+      linkList.forEach(linkItem => {
+        let parts = linkItem.split('~~~');
+        
+        let contents = [];
+        let listItemClasses = '';
+        
+        let primaryLink = parts[0];
+        let primaryLinkParts = primaryLink.split('^^^');
+        let primaryLinkSettings;
+        
+        if (primaryLinkParts.length > 1) {
+          primaryLink = primaryLinkParts[1];
+          primaryLinkSettings = primaryLinkParts[0].split(',');
+        }
+        
+        let primaryParts = primaryLink.split('###');
+        let primaryClasses = linkItemClasses(primaryLinkSettings);
+        
+        let subLinks;
+        if (parts.length > 1) {
+          subLinks = parts.slice(1);
+        }
+        
+        if (subLinks) {
+          primaryClasses += '.submenu';
+        }
+        
+        contents.push(
+          helper.h(`a.nav-link${primaryClasses}`, {
+            href: primaryParts[1],
+            text: primaryParts[0]
+          })
+        );
+                
+        if (subLinks) {
+          contents.push(
+            helper.h('button.dropdown-toggle#header-menu-toggle',
+              { onclick: subMenuClickHandler },
+              iconNode("chevron-down", { class: "chevron-down" })
+            )
+          )
+          
+          let subLinkList = [];
+          subLinks.forEach(subLink => {
+            let subLinkParts = subLink.split('^^^');
+            let subLinkSettings;
+            
+            if (subLinkParts.length > 1) {
+              subLinkSettings = subLinkParts[0].split(',');
+              subLinkParts = subLinkParts[1].split('###');
+            } else {
+              subLinkParts = subLinkParts[0].split('###');
+            }
+            
+            let subLinkContents = [];
+            
+            if (subLinkParts[2]) {
+              subLinkContents.push(
+                helper.h('div.nav-submenu-detail', subLinkParts[2])
+              )
+            }
+            
+            let subLinkClasses = '';
+            if (subLinkSettings && subLinkSettings.includes('subscribe')) {
+              subLinkClasses += '.nav-subscribe-link';
+            }
+            
+            subLinkList.push(
+              helper.h(`li${linkItemClasses(subLinkSettings)}`, [
+                helper.h(`a.nav-submenu-link${subLinkClasses}`, {
+                  href: subLinkParts[1],
+                  text: subLinkParts[0]
+                }, subLinkContents)
+              ])
+            );
+          });
+          
+          contents.push(
+            helper.h('ul.nav-link-submenu', subLinkList)
+          );
+        }
+        
+        result.push(helper.h(`li${subLinks ? '.dropdown' : ''}`, contents));
+      });
+    }
+    
+    return result;
+  }
+  
+  function buildJoinLinks(helper) {
+    return [
+      helper.attach('link', {
+        href: settings.login_link,
+        rawLabel: 'Login',
+        className: 'btn btn-blend btn-account'
+      }),
+      helper.attach('link', {
+        href: settings.sign_up_link,
+        rawLabel: 'Get Started Now',
+        className: 'btn btn-turquoise btn-account'
+      })
+    ]
+  }
 
   api.decorateWidget('home-logo:after', helper => {
     const showExtraInfo = helper.attrs.minimized;
-    const currentUser = api.getCurrentUser();
-    const mobileView = helper.widget.site.mobileView;
-
+    
     const menuClickHandler = function() {
       let $navLinkContainer = $('#nav-link-container');
       if ($navLinkContainer.css('visibility') === 'visible') {
@@ -17,109 +151,16 @@
         $navLinkContainer.css('visibility', 'visible');
       }
     };
-
-    var linkURL = "https://www.pianogroove.com/meet-the-team/";
-    var linkTitle = "Teachers";
-
-    if (currentUser) {
-      linkURL = "https://www.pianogroove.com/welcome-to-pianogroove/";
-      linkTitle = "Pro Dashboard";
-    }
-
-    const subMenuClickHandler = function() {
-      if ($('ul.nav-link-submenu').is(':visible')) {
-        $('ul.nav-link-submenu').removeAttr('style');
-        $('#header-menu-toggle').removeClass('toggled');
-      } else if ($('ul.nav-link-submenu').is(':hidden')) {
-        $('ul.nav-link-submenu').show();
-        $('#header-menu-toggle').addClass('toggled');
-      }
-    };
-
+    
     if (!showExtraInfo) {
+      let links = buildLinks(helper);
+      
+      if (!currentUser && mobileView) {
+        links.push(...buildJoinLinks(helper));
+      }
+      
       return [
-        helper.h('ul#nav-link-container', [
-          helper.h('li.dropdown', [
-            helper.h('a.nav-link.submenu', {
-              href:'https://www.pianogroove.com/jazz-piano-lessons/',
-              text:'Lessons'
-            }),
-            helper.h('button.dropdown-toggle#header-menu-toggle',
-              { onclick: subMenuClickHandler },
-              iconNode("chevron-down", { class: "chevron-down" })),
-            helper.h('ul.nav-link-submenu', [
-              helper.h('li', [
-                helper.h('a.nav-submenu-link', {
-                  href:'https://www.pianogroove.com/jazz-piano-lessons/',
-                  text:'Jazz Piano Lessons'
-                },
-                helper.h('div.nav-submenu-detail', 'step-by-step lessons to master jazz theory'))
-              ]),
-              helper.h('li', [
-                helper.h('a.nav-submenu-link', {
-                  href:'https://www.pianogroove.com/blues-piano-lessons/',
-                  text:'Blues Piano Lessons'
-                },
-                helper.h('div.nav-submenu-detail', 'learn the blues, jazz blues, funk & gospel'))
-              ]),
-              helper.h('li', [
-                helper.h('a.nav-submenu-link', {
-                  href:'https://www.pianogroove.com/bossa-nova-lessons/',
-                  text:'Brazilian Piano Lessons'
-                },
-                helper.h('div.nav-submenu-detail', 'study bossa nova, samba & choro styles'))
-              ]),
-              helper.h('li', [
-                helper.h('a.nav-submenu-link', {
-                  href:'https://www.pianogroove.com/jazz-piano-lessons/',
-                  text:'Jazz Standard Lessons'
-                },
-                helper.h('div.nav-submenu-detail', 'learn to play your favourite tunes & songs'))
-              ]),
-              helper.h(`li.${(currentUser || mobileView) ?'hide-this':'anon-and-desktop'}`, [
-                helper.h(`a.nav-submenu-link.nav-subscribe-link`, {
-                  href:'https://www.pianogroove.com/join/',
-                  text:'SUBSCRIBE NOW'
-                })
-              ]),
-            ])
-          ]),
-          helper.h('li', [
-            helper.h('a.nav-link', {
-              href:'https://www.pianogroove.com/syllabus/',
-              text:'Syllabuses'
-            })
-          ]),
-          helper.h('li', [
-            helper.h('a.nav-link', {
-              href:'https://www.pianogroove.com/resources/',
-              text:'Resources'
-            })
-          ]),
-          helper.h('li', [
-            helper.h('a.nav-link', {
-              href: linkURL,
-              text: linkTitle
-            })
-          ]),
-          helper.h('li', [
-            helper.h('a.nav-link', {
-              href:'https://www.pianogroove.com/community/',
-              text:'Community'
-            })
-          ]),
-          helper.h('li', [
-          helper.h(`a.nav-link.${(currentUser || !mobileView) ?'hide-this':'anon-and-mobile'}`, {
-            href:'https://pianogroove.memberful.com/auth/sign_in',
-            text:'Login'
-          })
-          ]),
-          helper.h('li', [
-            helper.h(`a.nav-link.${(currentUser || !mobileView) ?'hide-this':'anon-and-mobile'}`, {
-              href:'https://pianogroove.com/join/'
-            }, helper.h('span', 'Get Started Now'))
-          ])
-        ]),
+        helper.h('ul#nav-link-container', links),
         helper.h(`div#responsive-menu.${(currentUser) ?'logged-in':'anon'}`,
           { onclick: menuClickHandler },
           [
@@ -132,19 +173,8 @@
   });
 
   api.decorateWidget('header-buttons:after', helper => {
-    if (!api.getCurrentUser() && !helper.widget.site.mobileView) {
-      return [
-        helper.attach('link', {
-          href: 'https://pianogroove.memberful.com/auth/sign_in',
-          rawLabel: 'Login',
-          className: 'btn btn-blend btn-account'
-        }),
-        helper.attach('link', {
-          href: 'https://pianogroove.com/join/',
-          rawLabel: 'Get Started Now',
-          className: 'btn btn-turquoise btn-account'
-        })
-      ]
+    if (!currentUser && !mobileView) {
+      return buildJoinLinks(helper);
     }
   })
 </script>

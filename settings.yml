@@ -2,3 +2,8 @@ pianogroove_menu_url: ''
 scrolled_logo_url: ''
 scrolled_mobile_logo_url: ''
 scrolled_small_logo_url: ''
+header_links:
+  type: list
+  default: ''
+login_link: 'https://pianogroove.memberful.com/auth/sign_in'
+sign_up_link: 'https://www.pianogroove.com/join/?utm_source=forum&utm_medium=button&utm_content=header'
