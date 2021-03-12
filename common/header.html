@@ -64,7 +64,7 @@
         }
         
         contents.push(
-          helper.h(`a.nav-link${primaryClasses}`, {
+          helper.h(`a.nav-link`, {
             href: primaryParts[1],
             text: primaryParts[0]
           })
@@ -116,9 +116,11 @@
           contents.push(
             helper.h('ul.nav-link-submenu', subLinkList)
           );
+          
+          primaryClasses += '.dropdown';
         }
         
-        result.push(helper.h(`li${subLinks ? '.dropdown' : ''}`, contents));
+        result.push(helper.h(`li${primaryClasses}`, contents));
       });
     }
     

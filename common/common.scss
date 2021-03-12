@@ -53,6 +53,7 @@ html.discourse-touch .header-buttons .btn-blend {
 
 #nav-link-container {
   display: flex;
+  align-items: center;
   position: relative;
   padding: 0;
   margin: 0 0 0 35px;
@@ -62,13 +63,14 @@ html.discourse-touch .header-buttons .btn-blend {
     margin-right: 25px;
   }
 
-  a {
+  a:not(.btn-account) {
     text-transform: uppercase;
     color: white;
     text-decoration: none;
     line-height: 2.75em;
     font-size: 15px;
     margin-right: 3px;
+    white-space: nowrap;
 
     &:hover {
       color: $pianogroove-turquoise;
@@ -91,10 +93,6 @@ html.discourse-touch .header-buttons .btn-blend {
 
     a {
       margin-right: 3px;
-    }
-
-    button {
-      color: white;
     }
   }
 }
@@ -127,10 +125,11 @@ html.discourse-touch .header-buttons .btn-blend {
   text-align: center;
   padding: 0 15px 0 10px;
   color: white !important;
-  background-color: $pianogroove-turquoise;
+  background-color: $pianogroove-turquoise !important;
+  
   &:hover {
-     background-color: $pianogroove-gold !important;
-   }
+    background-color: $pianogroove-gold !important;
+  }
 }
 
 #responsive-menu {

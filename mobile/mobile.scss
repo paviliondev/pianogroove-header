@@ -144,10 +144,11 @@
   width: 100%;
   margin: 50px 0 0 0;
 
-  a {
+  a:not(.btn-account) {
     text-transform: uppercase;
     color: black;
     text-decoration: none;
+    width: unset;
 
     &:hover {
       color: $pianogroove-turquoise;
@@ -156,6 +157,7 @@
 
   .dropdown {
     display: flex;
+    justify-content: center;
     position: relative;
 
     &:hover {
@@ -171,22 +173,11 @@
     a {
       margin-right: 3px;
     }
-
-    button {
-      position: absolute;
-      right: 120px;
-      top: 10px;
-      color: black;
-    }
   }
   
   .btn-account {
     width: unset;
     margin: 10px;
-  }
-  
-  .btn-blend {
-    background-color: $primary-low;
   }
   
   .btn-turquoise span {

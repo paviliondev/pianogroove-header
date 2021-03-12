@@ -7,12 +7,14 @@ header_links:
   default: ''
   description:
     en: |
-      format: primary text###primary link~~~sub 1 text###sub 1 link###sub 1 description
-      settings: add "setting1,setting2^^^"" before any primary or sub
-      - user: only show to users
-      - guest: only show to guests
-      - desktop: only show on desktop
-      - mobile: only show on mobile
-      - subscribe: add subscribe button style
+      <b>format</b>: text###link~~~sub_text###sub_link###sub_desc
+      <b>settings</b>: add "setting1,setting2^^^"" before any item
+      <ul>
+      <li>user: only show to users</li>
+      <li>guest: only show to guests</li>
+      <li>desktop: only show on desktop</li>
+      <li>mobile: only show on mobile</li>
+      <li>subscribe: add subscribe button style</li>
+      </ul>
 login_link: 'https://pianogroove.memberful.com/auth/sign_in'
 sign_up_link: 'https://www.pianogroove.com/join/?utm_source=forum&utm_medium=button&utm_content=header'
