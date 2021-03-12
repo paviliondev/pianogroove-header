@@ -5,5 +5,14 @@ scrolled_small_logo_url: ''
 header_links:
   type: list
   default: ''
+  description:
+    en: |
+      format: primary text###primary link~~~sub 1 text###sub 1 link###sub 1 description
+      settings: add "setting1,setting2^^^"" before any primary or sub
+      - user: only show to users
+      - guest: only show to guests
+      - desktop: only show on desktop
+      - mobile: only show on mobile
+      - subscribe: add subscribe button style
 login_link: 'https://pianogroove.memberful.com/auth/sign_in'
 sign_up_link: 'https://www.pianogroove.com/join/?utm_source=forum&utm_medium=button&utm_content=header'
