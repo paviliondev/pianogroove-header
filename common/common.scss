@@ -185,3 +185,7 @@ html, html.discourse-no-touch, html.discourse-touch {
     }
   }
 }
+
+body.admin-interface #main-outlet {
+  padding-top: 5em;
+}
