@@ -186,6 +186,8 @@ html, html.discourse-no-touch, html.discourse-touch {
   }
 }
 
-body.admin-interface #main-outlet {
+body.admin-interface #main-outlet,
+body.user-summary-page #main-outlet,
+body.archetype-private_message #main-outlet {
   padding-top: 5em;
 }
