@@ -1,7 +1,7 @@
 import { withPluginApi } from 'discourse/lib/plugin-api';
 
 function applyScrolled() {
-  return $(window).scrollTop() > 0 || $('body[class*=user-], body[class*=admin-]').length
+  return $(window).scrollTop() > 0 || $('body[class*=user-], body[class*=admin-], body[class*=private_message]').length
 }
 
 function setBodyClass() {
